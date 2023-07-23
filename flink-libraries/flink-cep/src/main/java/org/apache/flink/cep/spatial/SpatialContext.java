@@ -24,9 +24,7 @@ import org.locationtech.jts.geom.Geometry;
 
 import java.util.Optional;
 
-/**
- * Enables access to spatial related characteristics
- */
+/** Enables access to spatial related characteristics. */
 @PublicEvolving
 public interface SpatialContext {
 

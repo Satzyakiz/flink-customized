@@ -20,7 +20,7 @@ package org.apache.flink.cep.pattern.conditions;
 
 import org.apache.flink.annotation.Internal;
 import org.apache.flink.cep.pattern.conditions.types.IntersectType;
-import org.apache.flink.cep.spatial.SpatialContext;
+import org.apache.flink.cep.pattern.spatial.GeometryEvent;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ import java.util.Optional;
  * @param <T> Type of the element to filter
  */
 @Internal
-public class IntersectCondition<T extends SpatialContext> extends RichIterativeCondition<T> {
+public class IntersectCondition<T extends GeometryEvent> extends RichIterativeCondition<T> {
     private static final long serialVersionUID = 1L;
 
     private final String prevPatternName;
@@ -77,7 +77,7 @@ public class IntersectCondition<T extends SpatialContext> extends RichIterativeC
             case INTERSECT_ALL:
                 result = true;
                 for (T event : ctx.getEventsForPattern(prevPatternName)) {
-                    result = event.geometry().get().intersects(value.geometry().get());
+                    result = event.getGeometry().get().intersects(value.getGeometry().get());
                     if (!result) {
                         return false;
                     }
@@ -87,7 +87,7 @@ public class IntersectCondition<T extends SpatialContext> extends RichIterativeC
             case INTERSECT_EXACTLY_N:
                 result = false;
                 for (T event : ctx.getEventsForPattern(prevPatternName)) {
-                    if (event.geometry().get().intersects(value.geometry().get())) {
+                    if (event.getGeometry().get().intersects(value.getGeometry().get())) {
                         intersectionCountTillNow++;
                     }
                     if (intersectType == IntersectType.INTERSECT_ANY_N
@@ -103,7 +103,7 @@ public class IntersectCondition<T extends SpatialContext> extends RichIterativeC
             case INTERSECT_INORDER_EXACTLY_N:
                 result = false;
                 for (T event : ctx.getEventsForPattern(prevPatternName)) {
-                    if (event.geometry().get().intersects(value.geometry().get())) {
+                    if (event.getGeometry().get().intersects(value.getGeometry().get())) {
                         intersectionCountTillNow++;
                     } else {
                         if (intersectType == IntersectType.INTERSECT_INORDER_EXACTLY_N

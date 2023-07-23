@@ -25,14 +25,12 @@ import org.locationtech.jts.geom.Geometry;
 import java.util.Optional;
 
 /**
- * Enables to provide spatial characteristic to {@link org.apache.flink.cep.nfa.NFA} for use in {@link
- * org.apache.flink.cep.pattern.conditions.IterativeCondition}.
+ * Enables to provide spatial characteristic to {@link org.apache.flink.cep.nfa.NFA} for use in
+ * {@link org.apache.flink.cep.pattern.conditions.IterativeCondition}.
  */
 @Internal
 public interface SpatialService {
 
-    /**
-     * Spatial type
-     */
+    /** Spatial type. */
     Optional<Geometry> geometry();
 }
