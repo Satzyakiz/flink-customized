@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.flink.cep.pattern.conditions;
+package org.apache.flink.cep.pattern.conditions.spatial;
 
 import org.apache.flink.annotation.Internal;
-import org.apache.flink.cep.pattern.conditions.types.IntersectType;
+import org.apache.flink.cep.pattern.conditions.RichIterativeCondition;
 import org.apache.flink.cep.pattern.spatial.GeometryEvent;
 
 import java.util.Optional;
@@ -77,7 +77,7 @@ public class IntersectCondition<T extends GeometryEvent> extends RichIterativeCo
             case INTERSECT_ALL:
                 result = true;
                 for (T event : ctx.getEventsForPattern(prevPatternName)) {
-                    result = event.getGeometry().get().intersects(value.getGeometry().get());
+                    result = event.getGeometry().intersects(value.getGeometry());
                     if (!result) {
                         return false;
                     }
@@ -87,7 +87,7 @@ public class IntersectCondition<T extends GeometryEvent> extends RichIterativeCo
             case INTERSECT_EXACTLY_N:
                 result = false;
                 for (T event : ctx.getEventsForPattern(prevPatternName)) {
-                    if (event.getGeometry().get().intersects(value.getGeometry().get())) {
+                    if (event.getGeometry().intersects(value.getGeometry())) {
                         intersectionCountTillNow++;
                     }
                     if (intersectType == IntersectType.INTERSECT_ANY_N
@@ -103,7 +103,7 @@ public class IntersectCondition<T extends GeometryEvent> extends RichIterativeCo
             case INTERSECT_INORDER_EXACTLY_N:
                 result = false;
                 for (T event : ctx.getEventsForPattern(prevPatternName)) {
-                    if (event.getGeometry().get().intersects(value.getGeometry().get())) {
+                    if (event.getGeometry().intersects(value.getGeometry())) {
                         intersectionCountTillNow++;
                     } else {
                         if (intersectType == IntersectType.INTERSECT_INORDER_EXACTLY_N

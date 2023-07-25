@@ -1,4 +1,4 @@
-package org.apache.flink.cep.pattern.conditions.types;
+package org.apache.flink.cep.pattern.conditions.spatial;
 
 /** Supported intersection types. */
 public enum IntersectType {
